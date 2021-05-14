@@ -41,7 +41,7 @@ def signup():
             flash('Password is too short', category="error")
         else:
             #add to database
-            #PAREI NA MESSAGE FLASHING
+            #PAREI NA MESSAGE FLASHING 1:05:37
             flash('Account created', category="success")
     return render_template("signup.html")
 
