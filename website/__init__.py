@@ -1,9 +1,22 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, Table, Integer, Column, Identity, MetaData
 from sqlalchemy.engine.base import Connection
+from sqlalchemy.engine.url import URL
+from sqlalchemy.sql.sqltypes import VARCHAR
 
+
+
+connection_string = "{ODBC Driver 17 for SQL Server};SERVER=fabriciodb.dbsprojects.ie;DATABASE=FlaskMVC;UID=sa;PWD=Year20Server"
+connection_url = URL.create("mssql+pyodbc", query={"odbc_connect": connection_string})
+engine = create_engine(connection_url)
+
+m = MetaData()
+t = Table('t', m,
+        Column('id', Integer, primary_key=True),
+        Column('x', Integer))
+m.create_all(engine)
 
 # db = SQLAlchemy()
 # DB_NAME = "database.db"
