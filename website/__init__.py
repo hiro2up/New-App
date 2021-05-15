@@ -1,26 +1,31 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+import pypyodbc
+import flask_login
+import pyodbc
 
-from sqlalchemy import create_engine, Table, Integer, Column, Identity, MetaData
-from sqlalchemy.engine.base import Connection
-from sqlalchemy.engine.url import URL
-from sqlalchemy.sql.sqltypes import VARCHAR
+# from sqlalchemy import create_engine, Table, Integer, Column, MetaData#, Identity
+# from sqlalchemy.engine.base import Connection
+# from sqlalchemy.engine.url import URL
+# from sqlalchemy.sql.sqltypes import VARCHAR
 
+# connection = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=fabriciodb.dbsprojects.ie;DATABASE=database;UID=sa;PWD=Year20Server')
 
+connection = pypyodbc.connect('Driver={ODBC Driver 17 for SQL Server};'
+'Server=fabriciodb.dbsprojects.ie;'
+'Database=database;'
+'encrypt=yes;'
+'TrustServerCertificate=yes;'
+'UID=sa;'
+'PWD=Year20Server',autocommit = True)
 
-connection_string = "{ODBC Driver 17 for SQL Server};SERVER=fabriciodb.dbsprojects.ie;DATABASE=FlaskMVC;UID=sa;PWD=Year20Server"
-connection_url = URL.create("mssql+pyodbc", query={"odbc_connect": connection_string})
-engine = create_engine(connection_url)
+# cursor = connection.cursor()
+# SQLCommand = ("CREATE DATABASE Customer;")
+# cursor.execute(SQLCommand)
+# print('done')
+# connection.close()
 
-m = MetaData()
-t = Table('t', m,
-        Column('id', Integer, primary_key=True),
-        Column('x', Integer))
-m.create_all(engine)
-
-# db = SQLAlchemy()
-# DB_NAME = "database.db"
-
+#####################################################################
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'kadsbu209dn38h83nd d3jdo32'

@@ -237,6 +237,10 @@ a:hover li{
 	padding: 10px 20px 10px 10px;
 }
 
+#search-sec-2 form{
+	float: right;
+}
+
 #show-picture-container {
 	display: inline-block;
 	margin: 10px 0 10px 10px;
