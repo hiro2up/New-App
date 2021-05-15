@@ -1,4 +1,13 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+from sqlalchemy import create_engine
+from sqlalchemy.engine.base import Connection
+
+
+# db = SQLAlchemy()
+# DB_NAME = "database.db"
+
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'kadsbu209dn38h83nd d3jdo32'
