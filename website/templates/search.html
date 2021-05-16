@@ -14,10 +14,13 @@
     <div id="show-picture-container">
         <img id="show-picture" src="https://via.placeholder.com/210x295">
     </div>
-    <form method="POST"></form><button type="submit" class="btn btn-success" id="add-button">Add show to my list</button></form>
+    <form method="POST">
+        <button type="submit" class="btn btn-success" id="add-button">Add show to my list</button>
+    </form>
     
     <ul id="show-info">
-        <li id="show-name" value=""><a href="#"></a></li>
+        <li id="show-id"></li>
+        <li id="show-name"><a href="#"></a></li>
         <li id="show-premiere"></li>
         <li id="show-rating"></li>
         <li id="show-status"></li>
@@ -26,5 +29,6 @@
         <li id="show-summary"></li>
         
     </ul>
+    
 </div>
 {% endblock %}

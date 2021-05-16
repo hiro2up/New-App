@@ -9,8 +9,10 @@ async function getShow(completeURL)
 	
 	const response = await fetch(completeURL);
 	const data = await response.json();
+	console.log(data.runtime);
 	console.log(data.name);
 	document.getElementById("show-picture").src = data.image.medium;
+	document.getElementById("show-id").innerHTML = data.id;
 	document.getElementById("show-name").innerHTML = data.name;
 	document.getElementById("show-name").setAttribute("value",data.id);
 	document.getElementById("show-premiere").innerHTML = "Premiered on " + data.premiered;
@@ -19,6 +21,7 @@ async function getShow(completeURL)
 	document.getElementById("show-channel").innerHTML = data.network.name;
 	document.getElementById("show-runtime").innerHTML = data.runtime + " minutes";
 	document.getElementById("show-summary").innerHTML = data.summary;
+
 
 	
 
