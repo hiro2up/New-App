@@ -4,16 +4,16 @@
 {% block content %}
 <div align="center" class="pages-title">MY ACCOUNT</div>
 
-<div class="card" style="width: 18rem;">
-    <img class="card-img-top" src="https://via.placeholder.com/150" alt="Card image cap">
+<div class="card" style="width: 100%;">
+    <!-- <img class="card-img-top" src="https://via.placeholder.com/150" alt="Card image cap"> -->
     <div class="card-body">
       <h5 class="card-title">My account info</h5>
     </div>
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">First Name</li>
-      <li class="list-group-item">Last Name</li>
-      <li class="list-group-item">Address</li>
-      <li class="list-group-item">Eircode</li>
+      <li class="list-group-item">First Name: </li>
+      <li class="list-group-item">Last Name: </li>
+      <li class="list-group-item">Address: </li>
+      <li class="list-group-item">Eircode: </li>
     </ul>
     <div class="card-body">
       <a href="#" class="card-link">Card link</a>
@@ -22,7 +22,45 @@
   </div>
   <br>
 
-<div id="profilecard" class="container">
+  <div class="card" style="width: 100%;">
+    <!-- <img class="card-img-top" src="https://via.placeholder.com/150" alt="Card image cap"> -->
+    <div class="card-body">
+      <h5 class="card-title">My Orders</h5>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Order number: | Size:  |  With frame:  |  Order total:</li>
+      <li class="list-group-item">Size: </li>
+      <li class="list-group-item">With frame: </li>
+      <li class="list-group-item">Order total: </li>
+    </ul>
+  </div>
+  <br>
+
+  <div class="card" style="width: 18rem;">
+    <div class="card-header">
+      Order number:
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Painting size: </li>
+      <li class="list-group-item">Include frame: </li>
+      <li class="list-group-item">Order total: </li>
+    </ul>
+  </div>
+  <br>
+
+  <div class="card" style="width: 18rem;">
+    <div class="card-header">
+      Order number:
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Painting size: </li>
+      <li class="list-group-item">Include frame: </li>
+      <li class="list-group-item">Order total: </li>
+    </ul>
+  </div>
+  <br>
+
+<!-- <div id="profilecard" class="container">
     <div id="profile-picture-container">
         <img id="profile-picture" src="https://via.placeholder.com/150">
     </div>
@@ -33,6 +71,6 @@
         <li><div id="city">City: </div></li>
         <li><div id="about">About: </div></li>
     </ul>
-</div>
+</div> -->
 
 {% endblock %}

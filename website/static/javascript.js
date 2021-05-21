@@ -21,6 +21,24 @@
 // 	document.getElementById("total-amount").value = "€ 200";
 // })
 
+// function toggle(){
+//   var toggling = document.getElementById('shipping-block');
+//   if (toggling.style.display == 'none'){
+//     toggling.style.display == 'block'
+//   }
+//   else{
+//     toggling.style.display == 'none'
+//   }
+// }
+
+function toggle(divId, element)
+{
+    document.getElementById(divId).style.display = element.value == 'No' ? 'block' : 'none';
+}
+
+
+
+
 let orderForm = document.getElementById("order-form");
 for (var i = 0; i < orderForm.length; i++) {
   if (orderForm[i].type === 'radio') {

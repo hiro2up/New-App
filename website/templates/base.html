@@ -34,6 +34,7 @@
         <li class="nav-item">
           <a class="nav-link" href="/" id="home">HOME</a>
         </li>
+        {% if session.email %}
         <li class="nav-item">
           <a class="nav-link" href="myaccount" id="myaccount">MY ACCOUNT</a>
         </li>
@@ -41,14 +42,16 @@
           <a class="nav-link" href="order" id="order">ORDER</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/" id="logout">LOG OUT</a>
+          <a class="nav-link" href="/logout" id="logout">LOG OUT</a>
         </li>
+        {% else %}
         <li class="nav-item">
           <a class="nav-link" href="login" id="login">LOG IN</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="signup" id="signup">SIGN UP</a>
         </li>
+        {% endif %}
 		  </ul>
 		</div>
 	  </nav>

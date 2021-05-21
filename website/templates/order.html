@@ -14,46 +14,90 @@
 
     <div>Choose the size of the painting:</div>
     <div class="form-check">
-        
-        <input type="radio" class="form-check-input" name="size" id="small" value="70" onclick="setprice('70')">
+        <input type="radio" class="form-check-input" name="size" id="small" value="70" required>
         <label class="form-check-label">Small (12"x16") - €70</label>
       </div>
       <div class="form-check">
-        <input type="radio" class="form-check-input" name="size" id="medium" value="100" onclick="setprice('100')>
+        <input type="radio" class="form-check-input" name="size" id="medium" value="100">
         <label class="form-check-label">Medium (16"x24") - €100</label>
       </div>
       <div class="form-check">
-        <input type="radio" class="form-check-input" name="size" id="large" value="140" onclick="setprice('140')>
+        <input type="radio" class="form-check-input" name="size" id="large" value="140">
         <label class="form-check-label">Large (20"x28") - €140</label>
       </div>
       <div class="form-check">
-        <input type="radio" class="form-check-input" name="size" id="xlarge" value="200" onclick="setprice('200')>
+        <input type="radio" class="form-check-input" name="size" id="xlarge" value="200">
         <label class="form-check-label">Extra Large (24"x35") - €200</label>
       </div>
     <br>
 
-    <div>Would you like to add a frame to your painting:</div>
+    <div>Would you like to add a frame to your painting?</div>
     <div class="form-check">
         
-        <input type="radio" class="form-check-input" name="frame" id="yes-frame" value="30" onclick="setprice('30')">
+        <input type="radio" class="form-check-input" name="frame" id="yes-frame" value="30">
         <label class="form-check-label">Yes (+ €30)</label>
-      </div>
-      <div class="form-check">
-        <input type="radio" class="form-check-input" name="frame" id="no-frame" value="0" onclick="setprice('0')" checked>
-        <label class="form-check-label">No</label>
-      </div>
+    </div>
+    <div class="form-check">
+      <input type="radio" class="form-check-input" name="frame" id="no-frame" value="0" checked>
+      <label class="form-check-label">No</label>
+    </div>
+    <br>
+
+    <div>Would you like to add a gift box?</div>
+    <div class="form-check">
+        <input type="radio" class="form-check-input" name="giftbox" id="yes-gift" value="20">
+        <label class="form-check-label">Yes (+ €20)</label>
+    </div>
+    <div class="form-check">
+      <input type="radio" class="form-check-input" name="giftbox" id="no-gift" value="0" checked>
+      <label class="form-check-label">No</label>
+    </div>
     <br>
 
     <div class="form-group">
         <label for="comment">Any personal requests?</label>
-        <textarea class="form-control" rows="3" id="comment"></textarea>
+        <textarea class="form-control" rows="3" id="comment" maxlength="300"></textarea>
+    </div>
+    <br>
+    
+    <div class="form-group">
+      <label for="shipping-option">Is your shipping address the same as the address saved on your account?</label>
+      <select class="form-control" id="shipping-option" onchange="toggle('shipping-block',this)">
+      <option>Yes</option>
+      <option>No</option>
+      </select>
+    </div>
+    <br>
+
+    
+    <div id="shipping-block">
+      <div>Shipping address:</div>
+      <div class="form-group">
+        <label for="ship-addr1">Address line 1:</label>
+        <input type="text" class="form-control" id="ship-addr1" name="ship-addr1" placeholder="Enter address line 1" required>
+      </div>
+      <div class="form-group">
+        <label for="ship-addr2">Address line 2:</label>
+        <input type="text" class="form-control" id="ship-addr2" name="ship-addr2" placeholder="Enter address line 2" required>
+      </div>
+      <div class="form-group">
+        <label for="ship-addr3">City:</label>
+        <input type="text" class="form-control" id="ship-addr3" name="ship-addr3" placeholder="Enter city" required>
+      </div>
+      <div class="form-group">
+        <label for="ship-addr4">Eircode:</label>
+        <input type="text" class="form-control" id="ship-addr4" name="ship-addr4" placeholder="Enter eircode" required>
+      </div>
     </div>
 
+
     <br>
+    <br>
+
     <div>Total amount:</div>
     <input class="form-control" type="text" placeholder="Total ammount will appear here" id="total-amount" readonly>
     <br>
-
+    <br>
 
     <div id="payment-info">Info for payment will be sent via e-mail. Please check your spam/junk folders to make sure you send the payment to indicated bank account and payment receipt to the correct e-mail, 
       otherwise the production of your painitng will not be processed.</div>
