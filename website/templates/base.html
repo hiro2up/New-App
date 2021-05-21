@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>{% block title %}TV SHOW COMMUNITY{% endblock %}</title>
+	<title>{% block title %}THE ART STORE{% endblock %}</title>
 	<link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -15,12 +15,13 @@
       crossorigin="anonymous"
     />
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheet.css') }}">
+  
 </head>
 <body>
 
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
 		<!-- Brand -->
-		<a class="navbar-brand" href="/">TV SHOW TRACKER</a>
+		<a class="navbar-brand" href="/">THE ART STORE</a>
 	  
 		<!-- Toggler/collapsibe Button -->
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -33,24 +34,21 @@
         <li class="nav-item">
           <a class="nav-link" href="/" id="home">HOME</a>
         </li>
-			<li class="nav-item">
-				<a class="nav-link" href="https://www.tvmaze.com" target=”_blank” id="gototvmaze">GO TO TVMAZE</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="search" id="search">SEARCH SHOW</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="profile" id="myprofile">MY PROFILE</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="/" id="logout">LOG OUT</a>
-			</li>
-      <li class="nav-item">
-				<a class="nav-link" href="login" id="login">LOG IN</a>
-			</li>
-      <li class="nav-item">
-				<a class="nav-link" href="signup" id="signup">SIGN UP</a>
-			</li>
+        <li class="nav-item">
+          <a class="nav-link" href="myaccount" id="myaccount">MY ACCOUNT</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="order" id="order">ORDER</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/" id="logout">LOG OUT</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="login" id="login">LOG IN</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="signup" id="signup">SIGN UP</a>
+        </li>
 		  </ul>
 		</div>
 	  </nav>
