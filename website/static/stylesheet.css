@@ -33,6 +33,12 @@ a:hover li{
 	font-size: 30px;
 }
 
+#logged-email {
+	float: right;
+	font-weight: bold;
+	color:dodgerblue;
+}
+
 
 /*HOME PAGE*/
 #home-pic {

@@ -1,14 +1,14 @@
 {% extends "base.html" %}
-{% block title %}Search{% endblock %}
+{% block title %}Order{% endblock %}
 
 {% block content %}
 <div align="center" class="pages-title">PLACE YOUR ORDER</div>
 
-<form id="order-form" method="POST">
-    
+<form id="order-form" method="POST" action="/order">
     <div class="form-group">
-        <label class="form-label" for="photo">Upload your photo:</label><br>
-        <input type="file" class="form-control-file" id="photo" name="photo" placeholder="Add your photo" required>
+        <label class="form-label" for="photo">Upload your photo: (please save in a Google Drive, Dropbox or any file storage service and enter the public file URL below)</label><br>
+        <!-- <input type="file" accept=".jpg,.jpeg,.png" class="form-control-file" id="photo" name="photo" placeholder="Add your photo" required> -->
+        <input type="url" class="form-control" name="photo" id="photo" placeholder="https://example.com" pattern="https://.*" required>
     </div>
     <br>
 
@@ -56,13 +56,12 @@
 
     <div class="form-group">
         <label for="comment">Any personal requests?</label>
-        <textarea class="form-control" rows="3" id="comment" maxlength="300"></textarea>
+        <textarea class="form-control" rows="3" id="comment" name="comment" maxlength="300"></textarea>
     </div>
     <br>
-    
     <div class="form-group">
       <label for="shipping-option">Is your shipping address the same as the address saved on your account?</label>
-      <select class="form-control" id="shipping-option" onchange="toggle('shipping-block',this)">
+      <select class="form-control" id="shipping-option" name="shipping-option" onchange="toggle('shipping-block',this)">
       <option>Yes</option>
       <option>No</option>
       </select>
@@ -74,19 +73,19 @@
       <div>Shipping address:</div>
       <div class="form-group">
         <label for="ship-addr1">Address line 1:</label>
-        <input type="text" class="form-control" id="ship-addr1" name="ship-addr1" placeholder="Enter address line 1" required>
+        <input type="text" class="form-control" id="ship-addr1" name="ship-addr1" placeholder="Enter address line 1">
       </div>
       <div class="form-group">
         <label for="ship-addr2">Address line 2:</label>
-        <input type="text" class="form-control" id="ship-addr2" name="ship-addr2" placeholder="Enter address line 2" required>
+        <input type="text" class="form-control" id="ship-addr2" name="ship-addr2" placeholder="Enter address line 2">
       </div>
       <div class="form-group">
         <label for="ship-addr3">City:</label>
-        <input type="text" class="form-control" id="ship-addr3" name="ship-addr3" placeholder="Enter city" required>
+        <input type="text" class="form-control" id="ship-addr3" name="ship-addr3" placeholder="Enter city">
       </div>
       <div class="form-group">
         <label for="ship-addr4">Eircode:</label>
-        <input type="text" class="form-control" id="ship-addr4" name="ship-addr4" placeholder="Enter eircode" required>
+        <input type="text" class="form-control" id="ship-addr4" name="ship-addr4" placeholder="Enter eircode">
       </div>
     </div>
 
@@ -95,7 +94,9 @@
     <br>
 
     <div>Total amount:</div>
-    <input class="form-control" type="text" placeholder="Total ammount will appear here" id="total-amount" readonly>
+    <div class="form-group">
+      <input class="form-control" type="text" value="€ 0" id="total-amount" name="total-amount" readonly>
+    </div>
     <br>
     <br>
 
