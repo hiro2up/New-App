@@ -1,7 +1,6 @@
 from .__init__ import connection
-import pypyodbc
 
-def sendToDB(SQLCommand):
+def commitToDB(SQLCommand):
 
     cursor = connection.cursor()
     cursor.execute(SQLCommand)
@@ -19,15 +18,15 @@ def fetchAllFromDB(SQLCommand):
 
 class Customer:
     def __init__(self,inputEmail):
-        self.id = fetchOneFromDB("SELECT CustomerId FROM Customers WHERE Email = '{0}'".format(inputEmail))[0]
-        self.email = inputEmail
-        self.password = fetchOneFromDB("SELECT Pass FROM Customers WHERE Email = '{0}'".format(inputEmail))[0]
-        self.firstName = fetchOneFromDB("SELECT FirstName FROM Customers WHERE Email = '{0}'".format(inputEmail))[0]
-        self.lastName = fetchOneFromDB("SELECT LastName FROM Customers WHERE Email = '{0}'".format(inputEmail))[0]
-        self.addrline1 = fetchOneFromDB("SELECT AddrLine1 FROM Customers WHERE Email = '{0}'".format(inputEmail))[0]
-        self.addrline2 = fetchOneFromDB("SELECT AddrLine2 FROM Customers WHERE Email = '{0}'".format(inputEmail))[0]
-        self.city = fetchOneFromDB("SELECT City FROM Customers WHERE Email = '{0}'".format(inputEmail))[0]
-        self.eircode = fetchOneFromDB("SELECT Eircode FROM Customers WHERE Email = '{0}'".format(inputEmail))[0]
+        self.user = fetchOneFromDB("SELECT * FROM Customers WHERE Email = '{0}'".format(inputEmail))
+        self.id = self.user[0]
+        self.email = self.user[1]
+        self.firstName = self.user[3]
+        self.lastName = self.user[4]
+        self.addrline1 = self.user[5]
+        self.addrline2 = self.user[6]
+        self.city = self.user[7]
+        self.eircode = self.user[8]
 
 class Order:
     def __init__(self,inputCustEmail):

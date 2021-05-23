@@ -7,16 +7,46 @@
 <div class="card-title"><h5>MY ACCOUNT INFO</h5></div>
 <div class="card" style="width: 100%;">
     <!-- <img class="card-img-top" src="https://via.placeholder.com/150" alt="Card image cap"> -->
-    <!-- <div class="card-body">
-      <h5 class="card-title">My account info</h5>
-    </div> -->
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item"><span class="bold-text">First Name:</span><br> {{ user.firstName }}</li>
-      <li class="list-group-item"><span class="bold-text">Last Name:</span><br> {{ user.lastName }}</li>
-      <li class="list-group-item"><span class="bold-text">Address Line 1:</span><br> {{ user.addrline1 }}</li>
-      <li class="list-group-item"><span class="bold-text">Address Line 2:</span><br> {{ user.addrline2 }}</li>
-      <li class="list-group-item"><span class="bold-text">Eircode:</span><br> {{ user.eircode }}</li>
-    </ul>
+    <div class="card-body">
+      <button class="btn btn-primary" id="upd-edit" onclick="updShow()">Edit Info</button>
+    </div>
+
+    <form method="POST">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <label for="upd-email" class="bold-text">Email:</label>
+          <input type="email" class="form-control" id="upd-email" name="upd-email" placeholder="Email" value="{{ user.email }}" readonly required>
+        </li>
+        <li class="list-group-item">
+          <label for="upd-firstName" class="bold-text">First Name:</label>
+          <input type="text" class="form-control" id="upd-firstName" name="upd-firstName" placeholder="First name" value="{{ user.firstName }}" readonly required>
+        </li>
+        <li class="list-group-item">
+          <label for="upd-lasttName">Last Name:</label>
+          <input type="text" class="form-control" id="upd-lastName" name="upd-lastName" placeholder="Last name" value="{{ user.lastName }}" readonly required>
+        </li>
+        <li class="list-group-item">
+          <label for="upd-addrline1" class="bold-text">Adderss Line 1:</label>
+          <input type="text" class="form-control" id="upd-addrline1" name="upd-addrline1" placeholder="Address line 1" value="{{ user.addrline1 }}" readonly required>
+        </li>
+        <li class="list-group-item">
+          <label for="upd-addrline2" class="bold-text">Adderss Line 2:</label>
+          <input type="text" class="form-control" id="upd-addrline2" name="upd-addrline2" placeholder="Address line 2" value="{{ user.addrline2 }}" readonly>
+        </li>
+        <li class="list-group-item">
+          <label for="upd-city" class="bold-text">City:</label>
+          <input type="text" class="form-control" id="upd-city" name="upd-city" placeholder="City" value="{{ user.city }}" readonly required>
+        </li>
+        <li class="list-group-item">
+          <label for="upd-eircode" class="bold-text">Eircode:</label>
+          <input type="text" class="form-control" id="upd-eircode" name="upd-eircode" placeholder="Eircode" value="{{ user.eircode }}" readonly required>
+        </li>
+        <li class="list-group-item" id="upd-buttons">
+          <button type="reset" class="btn btn-danger" id="upd-cancel" onclick="updHide()">Cancel</button> <button class="btn btn-success" id="upd-send" onclick="updHide()">Update info</button>
+        </li>
+
+      </ul>
+    </form>
     <!-- <div class="card-body">
       <a href="#" class="card-link">Card link</a>
       <a href="#" class="card-link">Another link</a>
@@ -25,25 +55,31 @@
   <br>
   <br>
 
-  <div class="card-title"><h5>MY ORDERS</h5></div>
-  {% for n in orders.ordersList %}
-  <div class="card" style="width: 100%;">
-    <!-- <img class="card-img-top" src="https://via.placeholder.com/150" alt="Card image cap"> -->
-    <div class="card-body">
-      <h5 class="card-title">Order number: {{ n[0] }}</h5>
+  <p>
+    <a class="btn btn-secondary bold-text" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+      MY ORDERS ({{ nOrd }}) <i class="fa fa-angle-down"></i>
+    </a>
+  </p>
+  <div class="collapse" id="collapseExample">
+    {% for n in orders.ordersList %}
+    <div class="card" style="width: 100%;">
+      <!-- <img class="card-img-top" src="https://via.placeholder.com/150" alt="Card image cap"> -->
+      <div class="card-body">
+        <h5 class="card-title">Order number: {{ n[0] }}</h5>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><a href="{{ n[2] }}" target="_blank"><div id="photo-button" class="btn btn-primary">Photo link</div></a></li>
+        <li class="list-group-item"><span class="bold-text">Size:</span> {{ n[3] }} </li>
+        <li class="list-group-item"><span class="bold-text">With frame:</span> {{ n[6] }}</li>
+        <li class="list-group-item"><span class="bold-text">With giftbox:</span>  {{ n[7] }}</li>
+        <li class="list-group-item"><span class="bold-text">Additional Requests:</span> {{ n[4] }}</li>
+        <li class="list-group-item"><span class="bold-text">Shipping address:</span> {{ n[8] }}, {{ n[9] }}, {{ n[10] }}, {{ n[11] }}</li>
+        <li class="list-group-item"><span class="bold-text">Order total:</span> <span class="amount">€ {{ n[5] }}</span></li>
+      </ul>
     </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item"><a href="{{ n[2] }}" target="_blank"><div id="photo-button" class="btn btn-primary">Photo link</div></a></li>
-      <li class="list-group-item"><span class="bold-text">Size:</span> {{ n[3] }} </li>
-      <li class="list-group-item"><span class="bold-text">With frame:</span> {{ n[6] }}</li>
-      <li class="list-group-item"><span class="bold-text">With giftbox:</span>  {{ n[7] }}</li>
-      <li class="list-group-item"><span class="bold-text">Additional Requests:</span> {{ n[4] }}</li>
-      <li class="list-group-item"><span class="bold-text">Shipping address:</span> {{ n[8] }}, {{ n[9] }}, {{ n[10] }}, {{ n[11] }}</li>
-      <li class="list-group-item"><span class="bold-text">Order total:</span> <span class="amount">€ {{ n[5] }}</span></li>
-    </ul>
-  </div>
-  <br>
-  {% endfor %}
+    <br>
+    {% endfor %}
+</div>
   
 
   <!-- <div class="card" style="width: 18rem;">

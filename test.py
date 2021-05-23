@@ -36,7 +36,10 @@ def fetchAllFromDB(SQLCommand):
 # image_string = base64.b64encode(image.read())
 # print(image_string)
 
-custId = fetchOneFromDB("SELECT CustomerId from Customers WHERE Email = 'fabricio@msn.com'")[0]
-result = fetchAllFromDB("SELECT * FROM Orders WHERE CustomerId = {0}".format(int(custId)))
-for n in result:
-    print(n)
+# custId = fetchOneFromDB("SELECT CustomerId from Customers WHERE Email = 'fabricio@msn.com'")[0]
+# result = fetchAllFromDB("SELECT * FROM Orders WHERE CustomerId = {0}".format(int(custId)))
+# for n in result:
+#     print(n)
+
+user = fetchAllFromDB("SELECT * FROM Customers WHERE Email = 'claire@re.com'")
+print(user)

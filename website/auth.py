@@ -1,5 +1,5 @@
 # Here goes everything that IS related to authentication
-from website.models import fetchOneFromDB, sendToDB, Customer, Order, fetchAllFromDB
+from website.models import fetchOneFromDB, commitToDB, Customer, Order, fetchAllFromDB
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from bs4 import BeautifulSoup
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -16,20 +16,19 @@ def login():
         emailResults = fetchOneFromDB("SELECT Email FROM Customers WHERE Email = '{0}'".format(email))
         passResults = fetchOneFromDB("SELECT Pass FROM Customers WHERE Email = '{0}'".format(email))
 
-
-        if emailResults[0] == email:
-            if check_password_hash(str(passResults[0]),password):
-                session['email'] = request.form['email']
-                flash('Login successful', category='success')
-                return redirect(url_for('views.home'))
+        
+        try:
+            if emailResults[0] == email:
+                if check_password_hash(str(passResults[0]),password):
+                    session['email'] = request.form['email']
+                    flash('Login successful', category='success')
+                    return redirect(url_for('views.home'))
+                else:
+                    flash('Wrong password. Try again', category='error')
             else:
-                flash('Wrong password. Try again', category='error')
-        else:
+                flash('No account associated with {0} found'.format(email), category='error')
+        except:
             flash('No account associated with {0} found'.format(email), category='error')
-        # try:
-            
-        # except:
-        #     flash('No account associated with {0} found'.format(email), category='error')
 
     return render_template("login.html", boolean=True)
 
@@ -37,6 +36,7 @@ def login():
 @auth.route('/logout')
 def logout():   
     session.pop('email',default=None)
+    flash('Log out successful', category='success')
     return redirect(url_for('auth.login'))
 
 @auth.route('/signup', methods=['GET','POST'])
@@ -58,7 +58,7 @@ def signup():
 
         if email1 != email2:
             flash('Emails do not match', category="error")
-        elif len(email1) < 4:
+        elif len(email1) < 5:
             flash('Invalid email', category="error")
         elif emailResults:
             flash('E-mail already in use', category="error")
@@ -80,7 +80,7 @@ def signup():
             #add to database
             hashedPass = generate_password_hash(password1,method='sha256')
 
-            sendToDB("EXEC sp_NewCustomerH @Email = '{0}', @Pass = \"{1}\", @FirstName = '{2}', @LastName = '{3}', @AddrLine1 = '{4}', @AddrLine2 = '{5}', @City = '{6}', @Eircode = '{7}';".format(email1,hashedPass,firstName,lastName,addr1,addr2,city,eircode))
+            commitToDB("EXEC sp_NewCustomerH @Email = '{0}', @Pass = \"{1}\", @FirstName = \"{2}\", @LastName = \"{3}\", @AddrLine1 = \"{4}\", @AddrLine2 = \"{5}\", @City = \"{6}\", @Eircode = \"{7}\";".format(email1,hashedPass,firstName,lastName,addr1,addr2,city,eircode))
 
             session['email'] = request.form['email1']
             flash('Account created', category="success")
@@ -134,8 +134,8 @@ def order():
             
 
         #Add to database
-        #sendToDB("EXEC sp_NewOrder @CustomerId = {0}, @Photo = \"{1}\", @Size = \"{2}\", @Frame = \"{3}\", @Giftbox = \"{4}\", @Requests = \"{5}\", @Amount = {6}, @AddrLine1 = \"{7}\", @AddrLine2 = \"{8}\", @City = \"{9}\", @Eircode = \"{10}\";".format(customerId,photo,size,frame,giftbox,addRequests,totalAmount,addrline1,addrline2,city,eircode))
-        sendToDB("EXEC sp_NewOrder @CustomerId = {0}, @Photo = '{1}', @Size = '{2}', @Frame = '{3}', @Giftbox = '{4}', @Requests = '{5}', @Amount = {6}, @AddrLine1 = '{7}', @AddrLine2 = '{8}', @City = '{9}', @Eircode = '{10}';".format(customerId,photo,size,frame,giftbox,addRequests,totalAmount,addrline1,addrline2,city,eircode))
+        #commitToDB("EXEC sp_NewOrder @CustomerId = {0}, @Photo = \"{1}\", @Size = \"{2}\", @Frame = \"{3}\", @Giftbox = \"{4}\", @Requests = \"{5}\", @Amount = {6}, @AddrLine1 = \"{7}\", @AddrLine2 = \"{8}\", @City = \"{9}\", @Eircode = \"{10}\";".format(customerId,photo,size,frame,giftbox,addRequests,totalAmount,addrline1,addrline2,city,eircode))
+        commitToDB("EXEC sp_NewOrder @CustomerId = {0}, @Photo = '{1}', @Size = '{2}', @Frame = '{3}', @Giftbox = '{4}', @Requests = '{5}', @Amount = {6}, @AddrLine1 = \"{7}\", @AddrLine2 = \"{8}\", @City = \"{9}\", @Eircode = \"{10}\";;".format(customerId,photo,size,frame,giftbox,addRequests,totalAmount,addrline1,addrline2,city,eircode))
         
 
         flash('Order sent successfully', category="success")
@@ -148,14 +148,29 @@ def order():
         return redirect(url_for('auth.login'))
     
 
-@auth.route('/myaccount')
+@auth.route('/myaccount', methods=['GET','POST'])
 def myaccount():
-    
 
+    custId = fetchOneFromDB("SELECT CustomerId FROM Customers WHERE Email = '{0}'".format(session['email']))
+    nOrders = fetchOneFromDB("SELECT COUNT (*) FROM Orders WHERE CustomerId = {0}".format(int(custId[0])))[0]
+    print(nOrders)
+
+    if request.method == 'POST':
+        updFirstName = request.form.get('upd-firstName')
+        updLastName = request.form.get('upd-lastName')
+        updAddrLine1 = request.form.get('upd-addrline1')
+        updAddrLine2 = request.form.get('upd-addrline2')
+        updCity = request.form.get('upd-city')
+        updEircode = request.form.get('upd-eircode')
+
+        commitToDB("EXEC sp_UpdateCustomer @FirstName = \"{0}\", @LastName = \"{1}\", @AddrLine1 = \"{2}\", @AddrLine2 = \"{3}\", @City = \"{4}\", @Eircode = \"{5}\", @Email = '{6}'".format(updFirstName,updLastName,updAddrLine1,updAddrLine2,updCity,updEircode,session['email']))
+        #commitToDB("EXEC sp_UpdateCustomer @FirstName = '{0}', @LastName = '{1}', @AddrLine1 = '{2}', @AddrLine2 = '{3}', @City = '{4}', @Eircode = '{5}', @Email = '{6}'".format(updFirstName,updLastName,updAddrLine1,updAddrLine2,updCity,updEircode,session['email']))
+        flash('Account info updated successfully', category='success')
+        
 
     try:
         if session['email'] != None:
-            return render_template("myaccount.html",user = Customer(str(session['email'])), orders = Order(str(session['email'])))
+            return render_template("myaccount.html",user = Customer(str(session['email'])), orders = Order(str(session['email'])), nOrd = nOrders)
     except:
         flash('You must login to access this page', category="error")
         return redirect(url_for('auth.login'))

@@ -1,36 +1,4 @@
-
-// const small = document.getElementById("small"),
-// 	medium = document.getElementById("medium"),
-// 	large = document.getElementById("large"),
-// 	xlarge = document.getElementById("xlarge");
-
-
-// small.addEventListener("change", function(){
-// 	document.getElementById("total-amount").value = "€ 70";
-// })
-
-// medium.addEventListener("change", function(){
-// 	document.getElementById("total-amount").value = "€ 100";
-// })
-
-// large.addEventListener("change", function(){
-// 	document.getElementById("total-amount").value = "€ 140";
-// })
-
-// xlarge.addEventListener("change", function(){
-// 	document.getElementById("total-amount").value = "€ 200";
-// })
-
-// function toggle(){
-//   var toggling = document.getElementById('shipping-block');
-//   if (toggling.style.display == 'none'){
-//     toggling.style.display == 'block'
-//   }
-//   else{
-//     toggling.style.display == 'none'
-//   }
-// }
-
+// Checkbox toggle function - Orders page
 function toggle(divId, element)
 {
     document.getElementById(divId).style.display = element.value == 'No' ? 'block' : 'none';
@@ -50,8 +18,7 @@ function toggle(divId, element)
 }
 
 
-
-// Calculating total amount
+// Calculating total amount - Orders page
 let orderForm = document.getElementById("order-form");
 for (var i = 0; i < orderForm.length; i++) {
   if (orderForm[i].type === 'radio') {
@@ -73,4 +40,28 @@ function totalAmount() {
     }
   }
   document.getElementById('total-amount').value = myTotal;
+}
+
+//My Account Update Info
+function updShow(){
+  document.getElementById('upd-buttons').style.display = 'block'
+
+  document.getElementById('upd-firstName').readOnly = false
+  document.getElementById('upd-lastName').readOnly = false
+  document.getElementById('upd-addrline1').readOnly = false
+  document.getElementById('upd-addrline2').readOnly = false
+  document.getElementById('upd-city').readOnly = false
+  document.getElementById('upd-eircode').readOnly = false
+  
+}
+
+function updHide(){
+  document.getElementById('upd-buttons').style.display = 'none'
+
+  document.getElementById('upd-firstName').readOnly = true
+  document.getElementById('upd-lastName').readOnly = true
+  document.getElementById('upd-addrline1').readOnly = true
+  document.getElementById('upd-addrline2').readOnly = true
+  document.getElementById('upd-city').readOnly = true
+  document.getElementById('upd-eircode').readOnly = true
 }
