@@ -1,9 +1,8 @@
 # Here goes everything that IS related to authentication
-from website.models import fetchOneFromDB, sendToDB
+from website.models import fetchOneFromDB, sendToDB, Customer, Order, fetchAllFromDB
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from bs4 import BeautifulSoup
 from werkzeug.security import generate_password_hash, check_password_hash
-
 
 
 auth = Blueprint('auth', __name__)
@@ -135,7 +134,9 @@ def order():
             
 
         #Add to database
-        sendToDB("EXEC sp_NewOrder @CustomerId = {0}, @Photo = \"{1}\", @Size = \"{2}\", @Frame = \"{3}\", @Giftbox = \"{4}\", @Requests = \"{5}\", @Amount = {6}, @AddrLine1 = \"{7}\", @AddrLine2 = \"{8}\", @City = \"{9}\", @Eircode = \"{10}\";".format(customerId,photo,size,frame,giftbox,addRequests,totalAmount,addrline1,addrline2,city,eircode))
+        #sendToDB("EXEC sp_NewOrder @CustomerId = {0}, @Photo = \"{1}\", @Size = \"{2}\", @Frame = \"{3}\", @Giftbox = \"{4}\", @Requests = \"{5}\", @Amount = {6}, @AddrLine1 = \"{7}\", @AddrLine2 = \"{8}\", @City = \"{9}\", @Eircode = \"{10}\";".format(customerId,photo,size,frame,giftbox,addRequests,totalAmount,addrline1,addrline2,city,eircode))
+        sendToDB("EXEC sp_NewOrder @CustomerId = {0}, @Photo = '{1}', @Size = '{2}', @Frame = '{3}', @Giftbox = '{4}', @Requests = '{5}', @Amount = {6}, @AddrLine1 = '{7}', @AddrLine2 = '{8}', @City = '{9}', @Eircode = '{10}';".format(customerId,photo,size,frame,giftbox,addRequests,totalAmount,addrline1,addrline2,city,eircode))
+        
 
         flash('Order sent successfully', category="success")
 
@@ -143,13 +144,18 @@ def order():
         if session['email'] != None:
             return render_template("order.html")
     except:
+        flash('You must login to access this page', category="error")
         return redirect(url_for('auth.login'))
     
 
 @auth.route('/myaccount')
-def profile():
+def myaccount():
+    
+
+
     try:
         if session['email'] != None:
-            return render_template("myaccount.html")
+            return render_template("myaccount.html",user = Customer(str(session['email'])), orders = Order(str(session['email'])))
     except:
+        flash('You must login to access this page', category="error")
         return redirect(url_for('auth.login'))

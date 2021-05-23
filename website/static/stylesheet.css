@@ -3,7 +3,17 @@ body {
  	/* background-color: #1b2838;
  	color: #c6d4df; */
  	font-family: Arial, Helvetica;
+	background-color: rgb(235, 206, 168);
 	
+}
+
+.bold-text {
+	font-weight: bold;
+}
+
+.amount {
+	font-weight: bold;
+	color: rgb(2, 173, 2);
 }
 
 
@@ -109,3 +119,5 @@ h1 {
 #shipping-block {
 	display: none;
 }
+
+/*MY ACCOUNT PAGE*/
