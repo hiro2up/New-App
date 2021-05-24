@@ -1,6 +1,5 @@
 from flask import Flask, url_for, session
 import pypyodbc
-import pyodbc
 
 
 # connection = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=fabriciodb.dbsprojects.ie;DATABASE=database;UID=sa;PWD=Year20Server')

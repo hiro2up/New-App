@@ -1,7 +1,6 @@
 # Here goes everything that IS related to authentication
 from website.models import fetchOneFromDB, commitToDB, Customer, Order, fetchAllFromDB
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
-from bs4 import BeautifulSoup
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
