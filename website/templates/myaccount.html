@@ -41,16 +41,12 @@
           <label for="upd-eircode" class="bold-text">Eircode:</label>
           <input type="text" class="form-control" id="upd-eircode" name="upd-eircode" placeholder="Eircode" value="{{ user.eircode }}" readonly required>
         </li>
-        <li class="list-group-item" id="upd-buttons">
+        <div class="list-group-item" id="upd-buttons">
           <button type="reset" class="btn btn-danger" id="upd-cancel" onclick="updHide()">Cancel</button> <button class="btn btn-success" id="upd-send" onclick="updHide()">Update info</button>
-        </li>
+        </div>
 
       </ul>
     </form>
-    <!-- <div class="card-body">
-      <a href="#" class="card-link">Card link</a>
-      <a href="#" class="card-link">Another link</a>
-    </div> -->
   </div>
   <br>
   <br>
@@ -65,7 +61,8 @@
     <div class="card" style="width: 100%;">
       <!-- <img class="card-img-top" src="https://via.placeholder.com/150" alt="Card image cap"> -->
       <div class="card-body">
-        <h5 class="card-title">Order number: {{ n[0] }}</h5>
+        <h5 class="card-title"><span class="bold-text">Order number:</span> {{ n[0] }}</h5>
+        <h5 class="card-title"><span class="bold-text">Order date:</span> {{ n[13] }}</h5>
       </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><a href="{{ n[2] }}" target="_blank"><div id="photo-button" class="btn btn-primary">Photo link</div></a></li>
@@ -79,44 +76,7 @@
     </div>
     <br>
     {% endfor %}
-</div>
-  
-
-  <!-- <div class="card" style="width: 18rem;">
-    <div class="card-header">
-      Order number:
-    </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">Painting size: </li>
-      <li class="list-group-item">Include frame: </li>
-      <li class="list-group-item">Order total: </li>
-    </ul>
   </div>
   <br>
-
-  <div class="card" style="width: 18rem;">
-    <div class="card-header">
-      Order number:
-    </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">Painting size: </li>
-      <li class="list-group-item">Include frame: </li>
-      <li class="list-group-item">Order total: </li>
-    </ul>
-  </div> -->
-  <br>
-
-<!-- <div id="profilecard" class="container">
-    <div id="profile-picture-container">
-        <img id="profile-picture" src="https://via.placeholder.com/150">
-    </div>
-    <ul id="profile-info">
-        <li><div id="username"></div>Username: </li>
-        <li><div id="name">Name: </div></li>
-        <li><div id="course">Course: </div></li>
-        <li><div id="city">City: </div></li>
-        <li><div id="about">About: </div></li>
-    </ul>
-</div> -->
 
 {% endblock %}

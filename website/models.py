@@ -38,9 +38,12 @@ class Order:
         #[2] Photo
         #[3] Size
         #[4] Requests
-        #[5] Frame
-        #[6] Giftbox
-        #[7] AddrLine1
-        #[8] AddrLine2
-        #[9] City
-        #[10] Eircode
+        #[5] TotalAmount
+        #[6] Frame
+        #[7] Giftbox
+        #[8] AddrLine1
+        #[9] AddrLine2
+        #[10] City
+        #[11] Eircode
+        #[12] Status
+        #[13] Timestamp

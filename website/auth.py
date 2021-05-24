@@ -1,7 +1,9 @@
 # Here goes everything that IS related to authentication
+from pypyodbc import DATETIME
 from website.models import fetchOneFromDB, commitToDB, Customer, Order, fetchAllFromDB
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
+import datetime
 
 
 auth = Blueprint('auth', __name__)
@@ -131,10 +133,11 @@ def order():
             city = fetchOneFromDB("SELECT City FROM Customers WHERE Email = '{0}'".format(session['email']))[0]
             eircode = fetchOneFromDB("SELECT Eircode FROM Customers WHERE Email = '{0}'".format(session['email']))[0]
             
+        timestamps = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         #Add to database
         #commitToDB("EXEC sp_NewOrder @CustomerId = {0}, @Photo = \"{1}\", @Size = \"{2}\", @Frame = \"{3}\", @Giftbox = \"{4}\", @Requests = \"{5}\", @Amount = {6}, @AddrLine1 = \"{7}\", @AddrLine2 = \"{8}\", @City = \"{9}\", @Eircode = \"{10}\";".format(customerId,photo,size,frame,giftbox,addRequests,totalAmount,addrline1,addrline2,city,eircode))
-        commitToDB("EXEC sp_NewOrder @CustomerId = {0}, @Photo = '{1}', @Size = '{2}', @Frame = '{3}', @Giftbox = '{4}', @Requests = '{5}', @Amount = {6}, @AddrLine1 = \"{7}\", @AddrLine2 = \"{8}\", @City = \"{9}\", @Eircode = \"{10}\";;".format(customerId,photo,size,frame,giftbox,addRequests,totalAmount,addrline1,addrline2,city,eircode))
+        commitToDB("EXEC sp_NewOrder @CustomerId = {0}, @Photo = '{1}', @Size = '{2}', @Frame = '{3}', @Giftbox = '{4}', @Requests = '{5}', @Amount = {6}, @AddrLine1 = \"{7}\", @AddrLine2 = \"{8}\", @City = \"{9}\", @Eircode = \"{10}\", @Timestamps = \"{11}\";".format(customerId,photo,size,frame,giftbox,addRequests,totalAmount,addrline1,addrline2,city,eircode,timestamps))
         
 
         flash('Order sent successfully', category="success")
@@ -162,9 +165,14 @@ def myaccount():
         updCity = request.form.get('upd-city')
         updEircode = request.form.get('upd-eircode')
 
-        commitToDB("EXEC sp_UpdateCustomer @FirstName = \"{0}\", @LastName = \"{1}\", @AddrLine1 = \"{2}\", @AddrLine2 = \"{3}\", @City = \"{4}\", @Eircode = \"{5}\", @Email = '{6}'".format(updFirstName,updLastName,updAddrLine1,updAddrLine2,updCity,updEircode,session['email']))
-        #commitToDB("EXEC sp_UpdateCustomer @FirstName = '{0}', @LastName = '{1}', @AddrLine1 = '{2}', @AddrLine2 = '{3}', @City = '{4}', @Eircode = '{5}', @Email = '{6}'".format(updFirstName,updLastName,updAddrLine1,updAddrLine2,updCity,updEircode,session['email']))
-        flash('Account info updated successfully', category='success')
+        updlist = [updFirstName,updLastName,updAddrLine1,updAddrLine2,updCity,updEircode]
+
+        if updFirstName == '' or updLastName == '' or updAddrLine1 == '' or updAddrLine2 == '' or updCity == '' or updEircode == '':
+            flash('All fields are required', category='error')
+        else:
+            commitToDB("EXEC sp_UpdateCustomer @FirstName = \"{0}\", @LastName = \"{1}\", @AddrLine1 = \"{2}\", @AddrLine2 = \"{3}\", @City = \"{4}\", @Eircode = \"{5}\", @Email = '{6}'".format(updFirstName,updLastName,updAddrLine1,updAddrLine2,updCity,updEircode,session['email']))
+            #commitToDB("EXEC sp_UpdateCustomer @FirstName = '{0}', @LastName = '{1}', @AddrLine1 = '{2}', @AddrLine2 = '{3}', @City = '{4}', @Eircode = '{5}', @Email = '{6}'".format(updFirstName,updLastName,updAddrLine1,updAddrLine2,updCity,updEircode,session['email']))
+            flash('Account info updated successfully', category='success')
         
 
     try:
