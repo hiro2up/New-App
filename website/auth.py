@@ -4,7 +4,7 @@ from website.models import fetchOneFromDB, commitToDB, Customer, Order, fetchAll
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import datetime
-
+import regex
 
 auth = Blueprint('auth', __name__)
 
@@ -31,7 +31,11 @@ def login():
         except:
             flash('No account associated with {0} found'.format(email), category='error')
 
-    return render_template("login.html", boolean=True)
+    try:
+        if session['email']:
+            return redirect(url_for('views.home'))
+    except:
+        return render_template("login.html")
 
 
 @auth.route('/logout')
@@ -57,6 +61,8 @@ def signup():
         emailResults = fetchOneFromDB("SELECT Email FROM Customers WHERE Email = '{0}'".format(email1))
 
 
+
+
         if email1 != email2:
             flash('Emails do not match', category="error")
         elif len(email1) < 5:
@@ -78,15 +84,44 @@ def signup():
         elif len(password1) < 8:
             flash('Password is too short', category="error")
         else:
-            #add to database
-            hashedPass = generate_password_hash(password1,method='sha256')
+            #Checking password rules
+            needle_no = ['[Pp][Aa4][Ss5]{2}[Ww][Oo0][Rr][Dd]','\s+']
+            needle_yes = ['\d+','[A-Z]+','[a-z]+','\W','.{8}']
+            base_no = []
+            base_yes =[]
+            for no in needle_no:
+                base_no.append(regex.compile(no))
+            for yes in needle_yes:
+                base_yes.append(regex.compile(yes))
+            
+            count = 0
+            for bn in base_no:
+                test = bn.search(password1)
+                if test is not None:
+                    count+=1
 
-            commitToDB("EXEC sp_NewCustomerH @Email = '{0}', @Pass = \"{1}\", @FirstName = \"{2}\", @LastName = \"{3}\", @AddrLine1 = \"{4}\", @AddrLine2 = \"{5}\", @City = \"{6}\", @Eircode = \"{7}\";".format(email1,hashedPass,firstName,lastName,addr1,addr2,city,eircode))
+            for by in base_yes:
+                test = by.search(password1)
+                if test is None:
+                    count+=1
+            
+            if count > 0:
+                flash('Invalid password',category='error')
+            else:
 
-            session['email'] = request.form['email1']
-            flash('Account created', category="success")
+                #add to database
+                hashedPass = generate_password_hash(password1,method='sha256')
+
+                commitToDB("EXEC sp_NewCustomerH @Email = '{0}', @Pass = \"{1}\", @FirstName = \"{2}\", @LastName = \"{3}\", @AddrLine1 = \"{4}\", @AddrLine2 = \"{5}\", @City = \"{6}\", @Eircode = \"{7}\";".format(email1,hashedPass,firstName,lastName,addr1,addr2,city,eircode))
+
+                session['email'] = request.form['email1']
+                flash('Account created', category="success")
+                return redirect(url_for('views.home'))
+    try:
+        if session['email']:
             return redirect(url_for('views.home'))
-    return render_template("signup.html")
+    except:
+        return render_template("signup.html")
 
 
 @auth.route('/order', methods=['GET','POST'])
