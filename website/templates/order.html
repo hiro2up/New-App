@@ -56,7 +56,7 @@
 
     <div class="form-group">
         <label for="comment">Any personal requests?</label>
-        <textarea class="form-control" rows="3" id="comment" name="comment" maxlength="300"></textarea>
+        <textarea class="form-control" rows="3" id="comment" name="comment" maxlength="300" value="{{ request.form['comment'] }}"></textarea>
     </div>
     <br>
     <div class="form-group">
@@ -73,19 +73,19 @@
       <div>Shipping address:</div>
       <div class="form-group">
         <label for="ship-addr1">Address line 1:</label>
-        <input type="text" class="form-control" id="ship-addr1" name="ship-addr1" placeholder="Enter address line 1">
+        <input type="text" class="form-control" id="ship-addr1" name="ship-addr1" placeholder="Enter address line 1" value="{{ request.form['ship-addr1'] }}">
       </div>
       <div class="form-group">
         <label for="ship-addr2">Address line 2:</label>
-        <input type="text" class="form-control" id="ship-addr2" name="ship-addr2" placeholder="Enter address line 2">
+        <input type="text" class="form-control" id="ship-addr2" name="ship-addr2" placeholder="Enter address line 2" value="{{ request.form['ship-addr2'] }}">
       </div>
       <div class="form-group">
         <label for="ship-addr3">City:</label>
-        <input type="text" class="form-control" id="ship-addr3" name="ship-addr3" placeholder="Enter city">
+        <input type="text" class="form-control" id="ship-addr3" name="ship-addr3" placeholder="Enter city" value="{{ request.form['ship-addr3'] }}">
       </div>
       <div class="form-group">
         <label for="ship-addr4">Eircode:</label>
-        <input type="text" class="form-control" id="ship-addr4" name="ship-addr4" placeholder="Enter eircode">
+        <input type="text" class="form-control" id="ship-addr4" name="ship-addr4" placeholder="Enter eircode" value="{{ request.form['ship-addr4'] }}">
       </div>
     </div>
 
