@@ -1,28 +1,5 @@
 from flask import Flask
-import pypyodbc
 
-
-# connection = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=fabriciodb.dbsprojects.ie;DATABASE=database;UID=sa;PWD=Year20Server')
-
-#Connection to the database using pypyodbc. The "connection" variable is used in other functions to fetch and commit data to the database 
-# connection = pypyodbc.connect('Driver={ODBC Driver 17 for SQL Server};'
-# 'Server=fabriciodb.dbsprojects.ie;'
-# 'Database=database;'
-# 'encrypt=yes;'
-# 'TrustServerCertificate=yes;'
-# 'UID=sa;'
-# 'PWD=Year20Server',autocommit = True)
-
-def connectingDB():
-    connection = pypyodbc.connect('Driver={ODBC Driver 17 for SQL Server};'
-    'Server=fabriciodb.dbsprojects.ie;'
-    'Database=database;'
-    'encrypt=yes;'
-    'TrustServerCertificate=yes;'
-    'UID=sa;'
-    'PWD=Year20Server',autocommit = True)
-
-    return connection
 
 #####################################################################
 # The set up for the app

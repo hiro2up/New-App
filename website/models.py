@@ -1,4 +1,17 @@
-from .__init__ import connectingDB
+# from .__init__ import connectingDB
+
+import pypyodbc, regex
+
+def connectingDB():
+    connection = pypyodbc.connect('Driver={ODBC Driver 17 for SQL Server};'
+    'Server=fabriciodb.dbsprojects.ie;'
+    'Database=database;'
+    'encrypt=yes;'
+    'TrustServerCertificate=yes;'
+    'UID=sa;'
+    'PWD=Year20Server',autocommit = True)
+
+    return connection
 
 #Functions to commit to and fetch data from database
 def commitToDB(SQLCommand):
@@ -19,6 +32,31 @@ def fetchAllFromDB(SQLCommand):
     cursor = connectingDB().cursor()
     cursor.execute(SQLCommand)
     return cursor.fetchall()
+
+#Checking password rules (Using regex)
+#It must contain at least: 1 small letter, 1 capital letter, 1 special character, 1 digit, minimum length 8 and cannot contain spaces
+def passwordCheck(password):
+    needle_no = ['[Pp][Aa4][Ss5]{2}[Ww][Oo0][Rr][Dd]','\s+'] #cannot contain
+    needle_yes = ['\d+','[A-Z]+','[a-z]+','\W','.{8}'] #must contain
+    base_no = []
+    base_yes =[]
+    for no in needle_no:
+        base_no.append(regex.compile(no))
+    for yes in needle_yes:
+        base_yes.append(regex.compile(yes))
+    
+    count = 0
+    for bn in base_no:
+        test = bn.search(password)
+        if test is not None:
+            count+=1
+
+    for by in base_yes:
+        test = by.search(password)
+        if test is None:
+            count+=1
+    #for each fail, it'll increase count by 1. If all pass, count = 0
+    return count
 
 #Customer and Order classes
 class Customer:

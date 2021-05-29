@@ -1,9 +1,8 @@
 # Here goes everything that IS related to authentication
-from website.models import fetchOneFromDB, commitToDB, Customer, Order, fetchAllFromDB
-from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from website.models import fetchOneFromDB, commitToDB, Customer, Order, fetchAllFromDB, passwordCheck #Importing functions from other files
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session 
 from werkzeug.security import generate_password_hash, check_password_hash
 import datetime
-import regex
 
 auth = Blueprint('auth', __name__)
 
@@ -84,32 +83,10 @@ def signup():
             flash('Invalid Eircode', category="error")
         elif password1 != password2:
             flash('Passwords do not match', category="error")
-        elif len(password1) < 8:
-            flash('Password is too short', category="error")
         else:
-            #Checking password rules (Using regex)
-            needle_no = ['[Pp][Aa4][Ss5]{2}[Ww][Oo0][Rr][Dd]','\s+'] #cannot contain
-            needle_yes = ['\d+','[A-Z]+','[a-z]+','\W','.{8}'] #must contain
-            base_no = []
-            base_yes =[]
-            for no in needle_no:
-                base_no.append(regex.compile(no))
-            for yes in needle_yes:
-                base_yes.append(regex.compile(yes))
-            
-            count = 0
-            for bn in base_no:
-                test = bn.search(password1)
-                if test is not None:
-                    count+=1
-
-            for by in base_yes:
-                test = by.search(password1)
-                if test is None:
-                    count+=1
-            
-            if count > 0:
-                flash('Invalid password',category='error')
+            #Checking password rules            
+            if passwordCheck(password1) > 0:
+                flash('Invalid password. It must contain at least: 1 small letter, 1 capital letter, 1 special character, 1 digit and minimum length 8',category='error')
             else:
 
                 #add to database
@@ -219,3 +196,29 @@ def myaccount():
     except:
         flash('You must login to access this page', category="error")
         return redirect(url_for('auth.login'))
+
+
+#Delete route
+@auth.route('/delete', methods=['GET','POST'])
+def delete():
+    if request.method == 'POST':
+        password = request.form.get('del-password')
+        passResults = fetchOneFromDB("SELECT Pass FROM Customers WHERE Email = '{0}'".format(session['email']))
+        user = Customer(str(session['email']))
+        
+        try:
+            if check_password_hash(str(passResults[0]),password):
+                session.pop('email',default=None)
+                commitToDB("EXEC sp_DeleteCustomer @CustomerId = {0}".format(user.id))
+                flash('Account deleted successfully', category='success')
+                return redirect(url_for('views.home'))
+            else:
+                flash('Invalid password', category='error')
+        except:
+            return redirect(url_for('auth.myaccount'))
+
+    try:
+        if session['email']:
+            return render_template("delete.html")
+    except:
+        return render_template("login.html")

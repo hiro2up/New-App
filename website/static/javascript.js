@@ -50,25 +50,33 @@ function totalAmount() {
 //////////////////////////////////////////////////////////////////////
 //My Account Update Info
 // It changes the readonly status for the account info fields, allowing the info to be updated. The changes are based on "Edit" and "Cancel" buttons on the page
-function updShow(){
-  document.getElementById('upd-buttons').style.display = 'block'
+function updInfo(){
+  document.getElementById('upd-buttons').style.display = 'block';
 
-  document.getElementById('upd-firstName').readOnly = false
-  document.getElementById('upd-lastName').readOnly = false
-  document.getElementById('upd-addrline1').readOnly = false
-  document.getElementById('upd-addrline2').readOnly = false
-  document.getElementById('upd-city').readOnly = false
-  document.getElementById('upd-eircode').readOnly = false
+  document.getElementById('upd-firstName').readOnly = false;
+  document.getElementById('upd-lastName').readOnly = false;
+  document.getElementById('upd-addrline1').readOnly = false;
+  document.getElementById('upd-addrline2').readOnly = false;
+  document.getElementById('upd-city').readOnly = false;
+  document.getElementById('upd-eircode').readOnly = false;
   
 }
 
 function updHide(){
-  document.getElementById('upd-buttons').style.display = 'none'
+  document.getElementById('upd-buttons').style.display = 'none';
 
-  document.getElementById('upd-firstName').readOnly = true
-  document.getElementById('upd-lastName').readOnly = true
-  document.getElementById('upd-addrline1').readOnly = true
-  document.getElementById('upd-addrline2').readOnly = true
-  document.getElementById('upd-city').readOnly = true
-  document.getElementById('upd-eircode').readOnly = true
+  document.getElementById('upd-firstName').readOnly = true;
+  document.getElementById('upd-lastName').readOnly = true;
+  document.getElementById('upd-addrline1').readOnly = true;
+  document.getElementById('upd-addrline2').readOnly = true;
+  document.getElementById('upd-city').readOnly = true;
+  document.getElementById('upd-eircode').readOnly = true;
 }
+
+//Fetching random pictures for account info photo from an API
+async function getPhoto(){
+  const response = await fetch('https://dog.ceo/api/breeds/image/random');
+  const data = await response.json();
+  document.getElementById('card-img').src = data.message;
+}
+getPhoto()

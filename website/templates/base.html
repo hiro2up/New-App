@@ -22,6 +22,7 @@
 
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
 		<!-- Brand -->
+    <img src="../static/favicon.png" id="navbar-logo">
 		<a class="navbar-brand" href="/">THE ART STORE</a>
 	  
 		<!-- Toggler/collapsibe Button -->
@@ -37,7 +38,7 @@
         </li>
         {% if session.email %}
         <li class="nav-item">
-          <a class="nav-link" href="myaccount" id="myaccount">MY ACCOUNT</a>
+          <a class="nav-link" href="myaccount" id="myaccount" onload="getPhoto()">MY ACCOUNT</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="order" id="order">ORDER</a>
@@ -93,7 +94,7 @@
   <br>
 
   <div class="footer-copyright text-center py-3 fixed-bottom bg-secondary" id="footer">
-    © 2021 Copyright
+    © 2021 by The Art Store - Camden Street, Rathmines - Dublin 8 - Ireland
 
   </div>
 
@@ -121,9 +122,19 @@
 
     <script>
       // To stop form resubmission when refreshing the page
+      // Taken from https://www.webtrickshome.com/faq/how-to-stop-form-resubmission-on-page-refresh#:~:text=One%20way%20to%20stop%20page,if%20the%20form%20is%20empty.
       if ( window.history.replaceState ) {
         window.history.replaceState( null, null, window.location.href );
       }
+
+      //Fetching random pictures for account info photo from an API
+      async function getPhoto(){
+        const response = await fetch('https://dog.ceo/api/breeds/image/random');
+        const data = await response.json();
+        document.getElementById('card-img').src = data.message;
+      }
+      getPhoto()
+
       </script>
 </body>
 </html>

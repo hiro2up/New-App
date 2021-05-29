@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<form method="POST">
+    <h3 align="center" id="delete-title">DELETE ACCOUNT</h3>
+    <div id="delete-text">Are you sure you would like to delete your account? All account information and orders will be permanently erased.</div>
+    <div class="form-group">
+        <label for="del-password">Type your password below to proceed:</label>
+        <input type="password" class="form-control" id="del-password" name="del-password" placeholder="Enter password" required>
+    </div>
+    <br>
+    <div class="form-group form-check">
+        <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" name="agrement" required> I agree that once I delete my account, my info cannot be recovered.
+        </label>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-danger">Delete account</button>
+    <a class="btn btn-primary" href="/myaccount">Cancel</a>
+
+</form>
+
+{% endblock %}

@@ -1,6 +1,5 @@
-import unittest, pytest
-from website.models import Customer, Order
-from website import auth, connectingDB
+import unittest
+from website.models import Customer, Order, connectingDB, passwordCheck
 import app, pypyodbc
 from app import app
 # from flask.testing import FlaskClient
@@ -51,6 +50,18 @@ class RouteTest(unittest.TestCase):
         self.assertEqual(self.response.status_code,404)
 
 
+class RegexTest(unittest.TestCase):
+    def setUp(self):
+        self.password1 = '12345678'
+        self.password2 = 'Passw0rd'
+        self.password3 = 'plU3!out'
+    
+    def test_invalid_pass(self):
+        self.assertGreater(passwordCheck(self.password1),0)
+        self.assertGreater(passwordCheck(self.password2),0)
+    
+    def test_valid_pass(self):
+        self.assertEqual(passwordCheck(self.password3),0)
 
 if __name__ == '__main__':
     unittest.main()

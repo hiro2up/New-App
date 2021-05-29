@@ -6,9 +6,14 @@
 
 <div class="card-title"><h5>MY ACCOUNT INFO</h5></div>
 <div class="card" style="width: 100%;">
-    <!-- <img class="card-img-top" src="https://via.placeholder.com/150" alt="Card image cap"> -->
+  <div id="card-head-container">
+    <img id="card-img" src="https://via.placeholder.com/150" alt="Card image">
+    <p id="card-welcome">{{ "Welcome, " + user.firstName + " " + user.lastName + "!" }}</p>
+  </div>
+    
     <div class="card-body">
-      <button class="btn btn-primary" id="upd-edit" onclick="updShow()">Edit Info</button>
+      <button class="btn btn-primary" id="upd-edit" onclick="updInfo()">Edit Info</button>
+      <a class="btn btn-danger" id="upd-delete" href="/delete">Delete account</a>
     </div>
 
     <form method="POST">
