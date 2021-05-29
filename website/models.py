@@ -1,6 +1,7 @@
-# from .__init__ import connectingDB
-
 import pypyodbc, regex
+
+with open('.pw') as file:
+    password = file.read()
 
 def connectingDB():
     connection = pypyodbc.connect('Driver={ODBC Driver 17 for SQL Server};'
@@ -9,7 +10,7 @@ def connectingDB():
     'encrypt=yes;'
     'TrustServerCertificate=yes;'
     'UID=sa;'
-    'PWD=Year20Server',autocommit = True)
+    'PWD='+password,autocommit = True)
 
     return connection
 
