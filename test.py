@@ -1,45 +1,56 @@
-from website import models
-from flask import Flask, url_for, request
-from flask_sqlalchemy import SQLAlchemy
-import pypyodbc
-import flask_login
-import pyodbc
-import base64
+import unittest, pytest
+from website.models import Customer, Order
+from website import auth, connectingDB
+import app, pypyodbc
+from app import app
+# from flask.testing import FlaskClient
+# import flask_testing
 
 
-connection = pypyodbc.connect('Driver={ODBC Driver 17 for SQL Server};'
-'Server=fabriciodb.dbsprojects.ie;'
-'Database=database;'
-'encrypt=yes;'
-'TrustServerCertificate=yes;'
-'UID=sa;'
-'PWD=Year20Server',autocommit = True)
+#Testing pypyodbc connection with Database
+#connectingDB() is imported from models.py
+class TestDBConnection(unittest.TestCase):
+    def test_Connection(self):
+        self.assertIsInstance(connectingDB(),pypyodbc.Connection)
 
 
-def sendToDB(SQLCommand):
+#Testing classes
+#the classes are imported from models.py
+class ClassesTest(unittest.TestCase):
 
-    cursor = connection.cursor()
-    cursor.execute(SQLCommand)
+    def setUp(self):
+        self.email = 'claire@re.com'
+        connectingDB()
+    
+    #testing for the result info being fetched
+    def test_fetch_Customer(self):
+        result = Customer(self.email)
+        self.assertEqual(result.id,10)
 
-def fetchOneFromDB(SQLCommand):
+    #testing for the result type
+    def test_fetch_Order(self):
+        result = Order(self.email)
+        self.assertIsInstance(result.ordersList,list)
 
-    cursor = connection.cursor()
-    cursor.execute(SQLCommand)
-    return cursor.fetchone()
 
-def fetchAllFromDB(SQLCommand):
-    cursor = connection.cursor()
-    cursor.execute(SQLCommand)
-    return cursor.fetchall()
+#Testing Routes
+#taken from https://stackoverflow.com/questions/31710064/testing-flask-routes-do-and-dont-exist
+#In this piece of code we're testing an existing and non-existing route against the expected status
+#Using 
+class RouteTest(unittest.TestCase):
+    def setUp(self):
+        app.testing = True
+        self.c = app.test_client()
 
-# image = request.files['https://www.extremetech.com/wp-content/uploads/2019/12/SONATA-hero-option1-764A5360-edit.jpg']  
-# image_string = base64.b64encode(image.read())
-# print(image_string)
+    def test_login(self):
+        self.response = self.c.get('/login')
+        self.assertEqual(self.response.status_code,200)
 
-# custId = fetchOneFromDB("SELECT CustomerId from Customers WHERE Email = 'fabricio@msn.com'")[0]
-# result = fetchAllFromDB("SELECT * FROM Orders WHERE CustomerId = {0}".format(int(custId)))
-# for n in result:
-#     print(n)
+    def test_nonexist_route(self):
+        self.response = self.c.get('/newpage')
+        self.assertEqual(self.response.status_code,404)
 
-user = fetchAllFromDB("SELECT * FROM Customers WHERE Email = 'claire@re.com'")
-print(user)
+
+
+if __name__ == '__main__':
+    unittest.main()

@@ -1,5 +1,4 @@
 # Here goes everything that IS related to authentication
-from pypyodbc import DATETIME
 from website.models import fetchOneFromDB, commitToDB, Customer, Order, fetchAllFromDB
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -8,6 +7,10 @@ import regex
 
 auth = Blueprint('auth', __name__)
 
+
+#Here are all the routes that either require authentication (log in) to be viewed or are used for authentication
+
+#Log in route / log in page
 @auth.route('/login', methods=['GET','POST'])
 def login():
     if request.method == 'POST':
@@ -38,12 +41,14 @@ def login():
         return render_template("login.html")
 
 
+#log out route
 @auth.route('/logout')
 def logout():   
     session.pop('email',default=None)
     flash('Log out successful', category='success')
     return redirect(url_for('auth.login'))
 
+#Sign up route / Signup page
 @auth.route('/signup', methods=['GET','POST'])
 def signup():
     if request.method == 'POST':
@@ -59,8 +64,6 @@ def signup():
         password2 = request.form.get('password2')
 
         emailResults = fetchOneFromDB("SELECT Email FROM Customers WHERE Email = '{0}'".format(email1))
-
-
 
 
         if email1 != email2:
@@ -84,9 +87,9 @@ def signup():
         elif len(password1) < 8:
             flash('Password is too short', category="error")
         else:
-            #Checking password rules
-            needle_no = ['[Pp][Aa4][Ss5]{2}[Ww][Oo0][Rr][Dd]','\s+']
-            needle_yes = ['\d+','[A-Z]+','[a-z]+','\W','.{8}']
+            #Checking password rules (Using regex)
+            needle_no = ['[Pp][Aa4][Ss5]{2}[Ww][Oo0][Rr][Dd]','\s+'] #cannot contain
+            needle_yes = ['\d+','[A-Z]+','[a-z]+','\W','.{8}'] #must contain
             base_no = []
             base_yes =[]
             for no in needle_no:
@@ -124,14 +127,13 @@ def signup():
         return render_template("signup.html")
 
 
+#Order route / order page
 @auth.route('/order', methods=['GET','POST'])
 def order():
-    if request.method == 'POST':
+    if request.method == 'POST': #Order info taken from form
         customerId_fetch = fetchOneFromDB("SELECT CustomerId FROM Customers WHERE Email = '{0}'".format(session['email']))
         customerId = int(customerId_fetch[0])
 
-        # image = request.files['photo']  
-        # photob64 = base64.b64encode(image.read())
 
         photo = request.form.get('photo')
 
@@ -185,6 +187,7 @@ def order():
         return redirect(url_for('auth.login'))
     
 
+#My account route / my account page
 @auth.route('/myaccount', methods=['GET','POST'])
 def myaccount():
 

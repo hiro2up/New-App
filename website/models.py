@@ -1,21 +1,26 @@
-from .__init__ import connection
+from .__init__ import connectingDB
 
+#Functions to commit to and fetch data from database
 def commitToDB(SQLCommand):
 
-    cursor = connection.cursor()
+    #cursor = connection.cursor()
+    cursor = connectingDB().cursor()
     cursor.execute(SQLCommand)
 
 def fetchOneFromDB(SQLCommand):
 
-    cursor = connection.cursor()
+    #cursor = connection.cursor()
+    cursor = connectingDB().cursor()
     cursor.execute(SQLCommand)
     return cursor.fetchone()
 
 def fetchAllFromDB(SQLCommand):
-    cursor = connection.cursor()
+    #cursor = connection.cursor()
+    cursor = connectingDB().cursor()
     cursor.execute(SQLCommand)
     return cursor.fetchall()
 
+#Customer and Order classes
 class Customer:
     def __init__(self,inputEmail):
         self.user = fetchOneFromDB("SELECT * FROM Customers WHERE Email = '{0}'".format(inputEmail))
