@@ -49,7 +49,8 @@ class RouteTest(unittest.TestCase):
         self.response = self.c.get('/newpage')
         self.assertEqual(self.response.status_code,404)
 
-
+#Testing regex rules
+#for each fail, it'll increase count by 1. If all pass, count = 0 (see passwordCheck function in models.py file)
 class RegexTest(unittest.TestCase):
     def setUp(self):
         self.password1 = '12345678'
